@@ -3,7 +3,8 @@ from unittest import mock
 import pytest
 from app.main import outdated_products
 
-def test_outdated_products():
+
+def test_outdated_products() -> None:
     products = [
         {
             "name": "salmon",
@@ -21,19 +22,20 @@ def test_outdated_products():
             "price": 160
         }
     ]
-    
-    with mock.patch('app.main.date') as mock_date:
+
+    with mock.patch("app.main.date") as mock_date:
         mock_date.today.return_value = datetime.date(2022, 2, 2)
-        assert outdated_products(products) == ['duck']
+        assert outdated_products(products) == ["duck"]
 
         mock_date.today.return_value = datetime.date(2022, 2, 6)
-        assert outdated_products(products) == ['chicken', 'duck']
+        assert outdated_products(products) == ["chicken", "duck"]
 
         mock_date.today.return_value = datetime.date(2022, 2, 11)
-        assert outdated_products(products) == ['salmon', 'chicken', 'duck']
+        assert outdated_products(products) == ["salmon", "chicken", "duck"]
 
         mock_date.today.return_value = datetime.date(2022, 1, 30)
         assert outdated_products(products) == []
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     pytest.main()
